@@ -1,0 +1,142 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container styles */
+.container {
+  width: 100%;
+  max-width: 600px; /* Limit the width to 900px */
+  margin: 0 auto; /* Center the content */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Title and Section Heading */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* Input styles */
+input,
+select,
+button {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* To-Do Card Styles */
+.todo-card {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.todo-card h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.todo-card p {
+  margin-bottom: 5px;
+}
+
+.todo-card button {
+  background-color: #ff6347;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+.todo-card button:hover {
+  background-color: #e55347;
+}
+
+/* Completed Task Styles */
+.todo-card.completed {
+  background-color: #d3ffd3;
+  border-left: 5px solid #4caf50;
+  opacity: 0.7;
+}
+
+.todo-card.completed h4 {
+  text-decoration: line-through;
+}
+
+.todo-card.completed p {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Status Label */
+.todo-card .status {
+  font-weight: bold;
+  color: #4caf50;
+}
+
+/* Projects Container */
+#projects-container {
+  margin-top: 30px;
+}
+
+/* Table Styling (if you prefer to show the to-do list in a table format) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+td {
+  background-color: #fafafa;
+}
+
+td button {
+  background-color: #007bff;
+}
+
+td button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  border: 2px solid red; /* Red border */
+  outline: none; /* Remove outline */
+}

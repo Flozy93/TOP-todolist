@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list project</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>To-Do List</h2>
+
+      <input type="text" id="title" placeholder="Task title" required />
+      <input type="text" id="description" placeholder="Description" />
+      <input type="date" id="dueDate" required />
+      <select id="priority" required>
+        <option value="Low">Low</option>
+        <option value="Normal" selected>Normal</option>
+        <option value="High">High</option>
+      </select>
+      <button id="addTodo">Add To-Do</button>
+
+      <h2>Projects</h2>
+
+      <div id="projects-container"></div>
+
+      <ul id="todoList"></ul>
+    </div>
+    <script src="script.js" type="module"></script>
+  </body>
+</html>
