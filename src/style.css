@@ -140,3 +140,53 @@ td button:hover {
   border: 2px solid red; /* Red border */
   outline: none; /* Remove outline */
 }
+
+/* Style for the project sections */
+.project-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Style for the project header */
+.project-section h3 {
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Style for the todo cards */
+.todo-card {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Style for completed tasks */
+.todo-card.completed {
+  background-color: #e0e0e0;
+  text-decoration: line-through;
+}
+
+/* Button style */
+button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #5cb85c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+/* Error state for title input */
+.error {
+  border: 2px solid red;
+}

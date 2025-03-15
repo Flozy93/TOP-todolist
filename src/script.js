@@ -1,10 +1,15 @@
 import { ToDo } from "./todo.js";
 import { Project } from "./project.js";
+import { Portfolio } from "./portfolio.js";
 
-const newProject = new Project("Default project");
+const portfolio = new Portfolio();
+let currentProject = new Project("Default project");
+
+portfolio.addProject(currentProject);
 
 const todoButton = document.querySelector("#addTodo");
 const projectsContainer = document.querySelector("#projects-container");
+const projectSelect = document.querySelector("#project-select");
 
 // Add To-Do Button
 todoButton.addEventListener("click", () => {
@@ -14,30 +19,44 @@ todoButton.addEventListener("click", () => {
   const taskPriority = document.querySelector("#priority").value;
 
   const titleInput = document.querySelector("#title");
-  const dueDateInput = document.querySelector("#dueDate");
-
   titleInput.classList.remove("error");
-  // dueDateInput.classList.remove("error");
 
   let isValid = true;
 
   if (taskTitle === "") {
     titleInput.classList.add("error");
     isValid = false;
+    return;
   }
 
-  // if (taskDate === "") {
-  //   dueDateInput.classList.add("error");
-  //   isValid = false;
-  // }
+  const dateNow = new Date();
+  const chosenDate = new Date(taskDate);
+
+  if (chosenDate < dateNow) {
+    document.querySelector("#dueDate").classList.add("error");
+    return;
+  }
 
   if (!isValid) {
-    return; // Prevent adding todo if validation fails
+    return;
+  }
+
+  if (projectSelect.value === "new") {
+    const newProjectName = prompt("Enter new project name");
+    if (newProjectName) {
+      const newProject = new Project(newProjectName);
+      portfolio.addProject(newProject);
+      currentProject = newProject;
+      updateProjectSelect();
+    } else {
+      currentProject = portfolio
+        .getDetails()
+        .find((project) => project.details.name === projectSelect.value);
+    }
   }
 
   const newToDo = new ToDo(taskTitle, taskDescription, taskDate, taskPriority);
-  newProject.addTodo(newToDo);
-
+  currentProject.addTodo(newToDo);
   updateUI();
 
   document.querySelector("#title").value = "";
@@ -48,39 +67,80 @@ todoButton.addEventListener("click", () => {
 
 // Function to update UI
 function updateUI() {
-  projectsContainer.innerHTML = `<h3>${newProject.details.name}</h3>`;
+  projectsContainer.innerHTML = ""; // Clear previous content
 
-  newProject.details.list.forEach((todo, index) => {
-    const todoCard = document.createElement("div");
-    todoCard.classList.add("todo-card");
+  // Loop through all the projects in the portfolio
+  portfolio.getDetails().forEach((project) => {
+    // Create a section for each project
+    const projectSection = document.createElement("div");
+    projectSection.classList.add("project-section");
 
-    if (!todo.active) {
-      todoCard.classList.add("completed");
-    }
+    // Project header
+    const projectHeader = document.createElement("h3");
+    projectHeader.textContent = project.details.name;
+    projectSection.appendChild(projectHeader);
 
-    todoCard.innerHTML = `
-      <h4>${todo.title}</h4>
-      <p>${todo.description}</p>
-      <p>Due Date: ${todo.getDate(todo)}</p>
-      <p><Priority: ${todo.priority}</p>
-      <p>Status: ${todo.getTaskStatus(todo)} </p>
-      <button onclick="completeTask(${index})">Complete</button>
-      <button onclick="removeTask(${index})">Remove</button>
-    `;
+    // Loop through the to-dos in the current project
+    project.details.list.forEach((todo, index) => {
+      const todoCard = document.createElement("div");
+      todoCard.classList.add("todo-card");
 
-    projectsContainer.appendChild(todoCard);
+      if (!todo.active) {
+        todoCard.classList.add("completed");
+      }
+
+      todoCard.innerHTML = `
+        <h4>${todo.title}</h4>
+        <p>${todo.description}</p>
+        <p>Due Date: ${todo.dueDate}</p>
+        <p>Priority: ${todo.priority}</p>
+        <p>Status: ${todo.getTaskStatus(todo)} </p>
+        <button onclick="completeTask(${index}, '${
+        project.details.name
+      }')">Complete</button>
+        <button onclick="removeTask(${index}, '${
+        project.details.name
+      }')">Remove</button>
+      `;
+
+      // Append the todo card to the project section
+      projectSection.appendChild(todoCard);
+    });
+
+    // Append the project section to the main container
+    projectsContainer.appendChild(projectSection);
   });
 }
 
-// Function to Complete a Task
-window.completeTask = function (index) {
-  newProject.list[index].active = false;
+function updateProjectSelect() {
+  projectSelect.innerHTML = "";
+
+  const addNewOption = document.createElement("option");
+  addNewOption.value = "new";
+  addNewOption.textContent = "Add new project";
+  projectSelect.appendChild(addNewOption);
+
+  portfolio.getDetails().forEach((project) => {
+    const projectOption = document.createElement("option");
+    projectOption.value = project.details.name;
+    projectOption.textContent = project.details.name;
+    projectSelect.appendChild(projectOption);
+  });
+}
+
+window.completeTask = function (index, projectName) {
+  const project = portfolio
+    .getDetails()
+    .find((p) => p.details.name === projectName);
+  project.details.list[index].active = false;
   updateUI();
 };
 
-// Function to Remove a Task
-window.removeTask = function (index) {
-  newProject.list.splice(index, 1);
+window.removeTask = function (index, projectName) {
+  const project = portfolio
+    .getDetails()
+    .find((p) => p.details.name === projectName);
+  project.details.list.splice(index, 1);
   updateUI();
 };
 
@@ -88,7 +148,3 @@ window.removeTask = function (index) {
 document.querySelector("#title").addEventListener("focus", () => {
   document.querySelector("#title").classList.remove("error");
 });
-
-// document.querySelector("#dueDate").addEventListener("focus", () => {
-//   document.querySelector("#dueDate").classList.remove("error");
-// });
